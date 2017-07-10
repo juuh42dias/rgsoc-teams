@@ -80,6 +80,7 @@ class TeamsController < ApplicationController
         :'finishes_on(1i)', :'finishes_on(2i)', :'finishes_on(3i)', :invisible,
         :project_name,
         roles_attributes: role_attributes_list,
+        attendances_attributes: [:id, :conference_id, :_destroy],
         sources_attributes: [:id, :kind, :url, :_destroy]
       )
     end
