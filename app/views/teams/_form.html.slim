@@ -71,15 +71,15 @@
         = f.link_to_add 'Add another source', :sources, class: 'btn btn-primary col-sm-offset-3'
   -if can?(:update, Team)
     .page-header
-      h2 Conferences
-
-    p.help-block
-      | The team can choose 2 options for conference tickets (change the text)
+      h2 Conference preferences
 
     fieldset
-      = f.simple_fields_for :attendance do |c|
-        = c.input :first_option, as: :country, label: "First option", prompt: "Select one conference", wrapper_html: { class: 'col-md-6' }
-        = c.input :second_option, as: :country, label: "Second option", prompt: "Select one conference", wrapper_html: { class: 'col-md-6' }
+      = f.simple_fields_for :attendances do |c|
+        = c.hidden_field :option, value: 1
+        = c.input :conference_id, collection: @conferences, label: "Primary choice", prompt: "Conference", wrapper_html: { class: 'col-md-8' }
+      = f.simple_fields_for :attendances do |c|
+        = c.hidden_field :option, value: 2
+        = c.input :conference_id, collection: @conferences, label: "Secondary choice", prompt: "Conference", wrapper_html: { class: 'col-md-8' }
   .actions
     ul.list-inline
       li  = f.submit 'Save', class: 'btn btn-success'
