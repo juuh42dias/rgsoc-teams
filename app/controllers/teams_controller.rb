@@ -21,6 +21,7 @@ class TeamsController < ApplicationController
     @team = Team.new
     @team.roles.build(name: 'student', github_handle: current_user.github_handle)
     @team.sources.build(kind: 'blog')
+    @team.attendances.build
   end
 
   def edit
