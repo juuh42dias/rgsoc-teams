@@ -326,8 +326,8 @@ describe User do
     end
   end
 
-  describe '#student_team' do 
-    it 'return student current team' do 
+  describe '#student_team' do
+     it 'return student current team' do
       team    = FactoryGirl.create(:team)
       student = FactoryGirl.create(:student, team: team)
       expect(student.student_team).to eql team

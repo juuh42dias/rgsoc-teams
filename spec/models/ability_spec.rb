@@ -276,11 +276,11 @@ describe Ability do
             end
 
             it 'allows select conferences on own team' do
-              expect(subject).to be_able_to :edit_team, student_team
+              expect(subject).to be_able_to :update_conferences, student_team
             end
 
             it 'does not allow select conferences on own team' do
-              expect(subject).not_to be_able_to :edit_team, Team.new
+              expect(subject).not_to be_able_to :update_conferences, Team.new
             end
 
             it 'allows to create team for different season' do
