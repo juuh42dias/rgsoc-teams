@@ -211,7 +211,7 @@ RSpec.describe TeamsController do
 
           it 'team student user' do
             expect {
-              patch :update, params: { id: team.to_param, team: team_attributes }
+              patch :update, params: { id: team.to_param, team: team_params }
             }.to change { team.attendances.count }.by 2
           end
         end

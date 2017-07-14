@@ -217,7 +217,7 @@ class User < ActiveRecord::Base
 
   private
 
-  # Ensures that the location column either contains non-whitespace text, or is NULL
+  # Ensures that the location column either contains non-whitespppace text, or is NULL
   # This ensures that sorting by location yields useful results
   def sanitize_location
     self.location = nil if self.location.blank?
