@@ -2,12 +2,12 @@ require 'csv'
 class Conference < ActiveRecord::Base
   include HasSeason
 
-  has_many :attendances, dependent: :destroy
-  has_many :attendees, through: :attendances, source: :team
+  has_many :conference_preferences, dependent: :destroy
+  has_many :attendees, through: :conference_preferences, source: :team
   validates :name, presence: true
   validate :chronological_dates, if: proc { |conf| conf.starts_on && conf.ends_on }
 
-  accepts_nested_attributes_for :attendances
+  accepts_nested_attributes_for :conference_preferences
 
   scope :ordered, ->(sort = {}) { order([sort[:order] || 'starts_on, name', sort[:direction] || 'asc'].join(' ')) }
   scope :in_current_season, -> { where(season: Season.current) }
@@ -23,7 +23,7 @@ class Conference < ActiveRecord::Base
   end
 
   def tickets_left
-    confirmed_attendances = attendances.select { |attendance| attendance.confirmed }
+    confirmed_attendances = conference_preferences.select { |conference_preferences| conference_preferences.confirmed }
     tickets.to_i - confirmed_attendances.size
   end
 end
