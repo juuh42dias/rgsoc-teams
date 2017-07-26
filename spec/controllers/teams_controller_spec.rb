@@ -201,7 +201,7 @@ RSpec.describe TeamsController do
           let(:team_params) do
             build(:team).attributes.merge(:conference_preferences_attributes=>{
               '0'=>{
-                option: 1, conference_id: conference_1.id
+                option: 1, conference_id: conference_1.id, lightning_talk: true, comment: "comment1"
               },
               '1'=>{
                 option: 2, conference_id: conference_2.id
@@ -213,6 +213,77 @@ RSpec.describe TeamsController do
             expect {
               patch :update, params: { id: team.to_param, team: team_params }
             }.to change { team.conference_preferences.count }.by 2
+          end
+        end
+
+        context 'fill the conference preferences with comments and lightning_talk checked' do 
+          let(:conference_1) { FactoryGirl.create(:conference, :in_current_season)}
+          let(:conference_2) { FactoryGirl.create(:conference, :in_current_season)}
+          let(:team_params) do
+            build(:team).attributes.merge(:conference_preferences_attributes=>{
+              '0'=>{
+                option: 1, conference_id: conference_1.id, lightning_talk: true, comment: "comment1"
+              },
+              '1'=>{
+                option: 2, conference_id: conference_2.id
+              }
+            })
+          end
+
+          it 'should have a comment' do
+            patch :update, params: { id: team.to_param, team: team_params }
+            expect(team.conference_preferences.first.comment).to eq "comment1"
+          end
+
+          it 'should have status lightning talk true' do
+            patch :update, params: { id: team.to_param, team: team_params }
+            expect(team.conference_preferences.first.lightning_talk).to be_truthy
+          end
+
+          it 'should have a nil comment' do
+            patch :update, params: { id: team.to_param, team: team_params }
+            expect(team.conference_preferences.last.comment).to be nil
+          end
+
+          it 'should have status lightning talk false' do
+            patch :update, params: { id: team.to_param, team: team_params }
+            expect(team.conference_preferences.last.lightning_talk).to be false
+          end
+        end
+        
+
+        context 'fill the conference preferences with condition_term_ticket and cost checkeds' do 
+          let(:conference_1) { FactoryGirl.create(:conference, :in_current_season)}
+          let(:conference_2) { FactoryGirl.create(:conference, :in_current_season)}
+          let(:team_params) do
+            build(:team).attributes.merge(:conference_preferences_attributes=>{
+              '0'=>{
+                option: 1, conference_id: conference_1.id, condition_term_ticket: true, condition_term_cost: true
+              },
+              '1'=>{
+                option: 2, conference_id: conference_2.id
+              }
+            })
+          end
+
+          it 'should have a comment' do
+            patch :update, params: { id: team.to_param, team: team_params }
+            expect(team.conference_preferences.first.condition_term_ticket).to eq true
+          end
+
+          it 'should have status lightning talk true' do
+            patch :update, params: { id: team.to_param, team: team_params }
+            expect(team.conference_preferences.first.condition_term_cost).to be_truthy
+          end
+
+          it 'should have a nil comment' do
+            patch :update, params: { id: team.to_param, team: team_params }
+            expect(team.conference_preferences.last.condition_term_ticket).to be false
+          end
+
+          it 'should have status lightning talk false' do
+            patch :update, params: { id: team.to_param, team: team_params }
+            expect(team.conference_preferences.last.condition_term_cost).to be false
           end
         end
       end

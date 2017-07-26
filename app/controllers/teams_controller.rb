@@ -84,7 +84,8 @@ class TeamsController < ApplicationController
         :'finishes_on(1i)', :'finishes_on(2i)', :'finishes_on(3i)', :invisible,
         :project_name,
         roles_attributes: role_attributes_list,
-        conference_preferences_attributes: [:id, :option, :conference_id, :_destroy],
+        conference_preferences_attributes: [:id, :option, :lightning_talk, :comment,
+         :condition_term_ticket, :condition_term_cost, :conference_id, :_destroy],
         sources_attributes: [:id, :kind, :url, :_destroy]
       )
     end

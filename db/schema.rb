@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170720135154) do
+ActiveRecord::Schema.define(version: 20170725181253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,6 +101,10 @@ ActiveRecord::Schema.define(version: 20170720135154) do
     t.bigint "team_id"
     t.bigint "conference_id"
     t.integer "option"
+    t.boolean "lightning_talk", default: false
+    t.boolean "condition_term_ticket", default: false
+    t.boolean "condition_term_cost", default: false
+    t.text "comment"
     t.index ["conference_id"], name: "index_conference_preferences_on_conference_id"
     t.index ["team_id"], name: "index_conference_preferences_on_team_id"
   end
