@@ -144,7 +144,7 @@ class Team < ActiveRecord::Base
 
   def with_all_built
     build_conference_preference_info unless conference_preference_info.present?
-    build_conference_preference_info.with_preferences_build
+    conference_preference_info.with_preferences_build unless conference_preference_info.conference_preferences.present?
   end
 
   private
