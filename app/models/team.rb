@@ -25,9 +25,11 @@ class Team < ActiveRecord::Base
   has_one :last_activity, -> { order('id DESC') }, class_name: 'Activity'
   has_many :comments, as: :commentable
   has_many :status_updates, -> { where(kind: 'status_update') }, class_name: 'Activity'
-  has_many :conference_preferences, dependent: :destroy
+  has_one :conference_preference_info
+  has_many :conference_preferences, through: :conference_preference_info, dependent: :destroy
   has_many :conferences, through: :conference_preferences
 
+  accepts_nested_attributes_for :conference_preference_info, allow_destroy: true, reject_if: :without_preferences?
   accepts_nested_attributes_for :conference_preferences, allow_destroy: true, reject_if: :without_preferences?
   accepts_nested_attributes_for :roles, :sources, allow_destroy: true
 
@@ -138,6 +140,11 @@ class Team < ActiveRecord::Base
 
   def coach_roles
     roles.select { |role| role.name == 'coach' }
+  end
+
+  def with_all_built
+    build_conference_preference_info unless conference_preference_info.present?
+    conference_preference_info.with_preferences_build
   end
 
   private

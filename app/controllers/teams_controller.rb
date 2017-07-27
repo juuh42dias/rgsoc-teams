@@ -26,8 +26,7 @@ class TeamsController < ApplicationController
   def edit
     @team.sources.build(kind: 'blog') unless @team.sources.any?
     @conferences = conference_list
-    @team.conference_preferences.build(option: 1) unless @team.conference_preferences.find_by(option: 1)
-    @team.conference_preferences.build(option: 2) unless @team.conference_preferences.find_by(option: 2)
+    @team.with_all_built
   end
 
   def create
@@ -84,8 +83,9 @@ class TeamsController < ApplicationController
         :'finishes_on(1i)', :'finishes_on(2i)', :'finishes_on(3i)', :invisible,
         :project_name,
         roles_attributes: role_attributes_list,
-        conference_preferences_attributes: [:id, :option, :lightning_talk, :comment,
-         :condition_term_ticket, :condition_term_cost, :conference_id, :_destroy],
+        conference_preferences_attributes: [:id, :option, :conference_id, :_destroy],
+        conference_preference_info_attributes: [:id, :lightning_talk, :condition_term_ticket,
+          :condition_term_cost, :_destroy],
         sources_attributes: [:id, :kind, :url, :_destroy]
       )
     end
