@@ -75,8 +75,7 @@
 
     fieldset.conferences_fieldset
       = f.simple_fields_for :conference_preference_info do |cp_info|  
-        / , f.object.conference_preference_info.conference_preferences.sort{ |a,b| a.option <=> b.option}
-        = cp_info.simple_fields_for :conference_preferences do |cp|
+        = cp_info.simple_fields_for :conference_preferences, f.object.conference_preference_info.conference_preferences.sort{ |a,b| a.option <=> b.option} do |cp|
           = cp.hidden_field :option, value: cp.object.option
           = cp.input :conference_id, collection: @conferences.group_by(&:region), as: :grouped_select, group_method: :last, label: cp.object.option == 1 ? "Primary choice" : "Secondary Choice", prompt: "Conference"
 
