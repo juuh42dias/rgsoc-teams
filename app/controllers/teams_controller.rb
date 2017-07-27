@@ -84,7 +84,7 @@ class TeamsController < ApplicationController
         :project_name,
         roles_attributes: role_attributes_list,
         conference_preference_info_attributes: [:id, :lightning_talk, :condition_term_ticket,
-          :condition_term_cost, :_destroy, conference_preferences_attributes: [:id, :option, :conference_id, :_destroy]],
+          :condition_term_cost, :comment, :team_id, :_destroy, conference_preferences_attributes: [:id, :option, :conference_id, :_destroy]],
         sources_attributes: [:id, :kind, :url, :_destroy]
       )
     end
