@@ -29,8 +29,8 @@ class Team < ActiveRecord::Base
   has_many :conference_preferences, through: :conference_preference_info, dependent: :destroy
   has_many :conferences, through: :conference_preferences
 
-  accepts_nested_attributes_for :conference_preference_info, allow_destroy: true, reject_if: :without_preferences?
-  accepts_nested_attributes_for :conference_preferences, allow_destroy: true, reject_if: :without_preferences?
+  accepts_nested_attributes_for :conference_preference_info, allow_destroy: true#, reject_if: :without_preferences?
+  accepts_nested_attributes_for :conference_preferences, allow_destroy: true#, reject_if: :without_preferences?
   accepts_nested_attributes_for :roles, :sources, allow_destroy: true
 
   before_create :set_number
@@ -144,7 +144,7 @@ class Team < ActiveRecord::Base
 
   def with_all_built
     build_conference_preference_info unless conference_preference_info.present?
-    conference_preference_info.with_preferences_build
+    build_conference_preference_info.with_preferences_build
   end
 
   private
@@ -188,6 +188,12 @@ class Team < ActiveRecord::Base
   def without_preferences?(att)
     att[:conference_id].blank?
   end
+
+  
+  def without_conferences?(att)
+    att[:conference_id].blank?
+  end
+
 
   # def must_have_members
   #   errors.add(:team, 'must have at least one member') if members_empty?
