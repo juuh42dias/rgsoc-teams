@@ -189,7 +189,6 @@ class Team < ActiveRecord::Base
     att[:conference_id].blank?
   end
 
-  
   def without_conferences?(att)
     att[:conference_id].blank?
   end
